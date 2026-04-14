@@ -27,15 +27,15 @@ const appState = {
 };
 
 const REAL_AVATAR_MAP = {
-  我: "https://i.pravatar.cc/240?img=32",
-  孔子: "https://i.pravatar.cc/240?img=12",
-  李白: "https://i.pravatar.cc/240?img=14",
-  貂蝉: "https://i.pravatar.cc/240?img=47",
-  华佗: "https://i.pravatar.cc/240?img=15",
-  武则天: "https://i.pravatar.cc/240?img=44",
-  李清照: "https://i.pravatar.cc/240?img=48",
-  狄仁杰: "https://i.pravatar.cc/240?img=18",
-  苏轼: "https://i.pravatar.cc/240?img=13",
+  我: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=320&q=80",
+  孔子: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=320&q=80",
+  李白: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=320&q=80",
+  貂蝉: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=80",
+  华佗: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=320&q=80",
+  武则天: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=320&q=80",
+  李清照: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=320&q=80",
+  狄仁杰: "https://images.unsplash.com/photo-1500048993953-d23a436266cf?auto=format&fit=crop&w=320&q=80",
+  苏轼: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=320&q=80",
 };
 
 const feedList = document.querySelector("#feed-list");
