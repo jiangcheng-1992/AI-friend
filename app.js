@@ -26,6 +26,18 @@ const appState = {
   modelReady: false,
 };
 
+const REAL_AVATAR_MAP = {
+  我: "https://i.pravatar.cc/240?img=32",
+  孔子: "https://i.pravatar.cc/240?img=12",
+  李白: "https://i.pravatar.cc/240?img=14",
+  貂蝉: "https://i.pravatar.cc/240?img=47",
+  华佗: "https://i.pravatar.cc/240?img=15",
+  武则天: "https://i.pravatar.cc/240?img=44",
+  李清照: "https://i.pravatar.cc/240?img=48",
+  狄仁杰: "https://i.pravatar.cc/240?img=18",
+  苏轼: "https://i.pravatar.cc/240?img=13",
+};
+
 const feedList = document.querySelector("#feed-list");
 const messageList = document.querySelector("#message-list");
 const storyStrip = document.querySelector("#story-strip");
@@ -139,7 +151,7 @@ function getAvatarClass(name) {
 function getCharacterMeta(name) {
   if (name === "我") {
     return {
-      avatarUrl: "./assets/avatars/user.svg",
+      avatarUrl: REAL_AVATAR_MAP["我"],
       title: "此刻的你",
       tags: ["真实", "日常"],
     };
@@ -151,18 +163,7 @@ function getAvatarSrc(name, explicitUrl = "") {
   if (explicitUrl) return explicitUrl;
   const meta = getCharacterMeta(name);
   if (meta.avatarUrl) return meta.avatarUrl;
-  const assetMap = {
-    我: "./assets/avatars/user.svg",
-    孔子: "./assets/avatars/confucius.svg",
-    李白: "./assets/avatars/libai.svg",
-    貂蝉: "./assets/avatars/diaochan.svg",
-    华佗: "./assets/avatars/huatuo.svg",
-    武则天: "./assets/avatars/wuzetian.svg",
-    李清照: "./assets/avatars/liqingzhao.svg",
-    狄仁杰: "./assets/avatars/direnjie.svg",
-    苏轼: "./assets/avatars/sushi.svg",
-  };
-  return assetMap[name] || "./assets/avatars/user.svg";
+  return REAL_AVATAR_MAP[name] || REAL_AVATAR_MAP["我"];
 }
 
 function getAvatarMarkup(entity, sizeClass = "", isButton = false, action = "", character = "") {

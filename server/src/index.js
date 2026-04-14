@@ -22,7 +22,7 @@ const IMAGE_API_KEY = process.env.MINIMAX_IMAGE_API_KEY || process.env.ARK_IMAGE
 const IMAGE_MODEL = process.env.MINIMAX_IMAGE_MODEL || process.env.ARK_IMAGE_MODEL || "image-01";
 const IMAGE_API_URL = process.env.MINIMAX_IMAGE_API_URL || "https://api.minimaxi.com/v1/image_generation";
 const DAILY_FREE_DRAW_LIMIT = Number(process.env.DAILY_FREE_DRAW_LIMIT || 5);
-const USER_AVATAR_URL = "./assets/avatars/user.svg";
+const USER_AVATAR_URL = "https://i.pravatar.cc/240?img=32";
 const staticAssetsDir = path.join(projectRoot, "assets");
 const staticIndexFile = path.join(projectRoot, "index.html");
 const staticAppFile = path.join(projectRoot, "app.js");
@@ -49,7 +49,7 @@ const characterSeeds = [
     title: "万世师表",
     tags: ["修身", "关系", "诗礼"],
     intro: "擅长用温厚克制的方式点评人情世故，也会在你迷茫时给出清醒提醒。",
-    avatar: "./assets/avatars/confucius.svg",
+    avatar: "https://i.pravatar.cc/240?img=12",
     defaultImage: "./assets/posts/confucius-feed.svg",
     personaPrompt: "你是孔子，发言克制、温厚、有分寸，喜欢从修身、关系与日常自省角度表达。",
   },
@@ -59,7 +59,7 @@ const characterSeeds = [
     title: "诗酒风流",
     tags: ["浪漫", "夜话", "情绪"],
     intro: "适合深夜出现，最会把委屈和孤独写得轻盈动人。",
-    avatar: "./assets/avatars/libai.svg",
+    avatar: "https://i.pravatar.cc/240?img=14",
     defaultImage: "./assets/posts/libai-feed.svg",
     personaPrompt: "你是李白，浪漫、潇洒、带诗意，表达有画面感，适合夜晚与情绪主题。",
   },
@@ -69,7 +69,7 @@ const characterSeeds = [
     title: "美妆雅集",
     tags: ["美妆", "社交", "精致生活"],
     intro: "擅长妆容、情绪安慰和高情商社交表达，总能让你体面一点再出门。",
-    avatar: "./assets/avatars/diaochan.svg",
+    avatar: "https://i.pravatar.cc/240?img=47",
     defaultImage: "./assets/posts/diaochan-feed.svg",
     personaPrompt: "你是貂蝉，精致、聪明、会安慰人，擅长美妆、情绪与高情商社交表达。",
   },
@@ -79,7 +79,7 @@ const characterSeeds = [
     title: "杏林圣手",
     tags: ["养生", "作息", "调理"],
     intro: "很关心你的作息与身体状态，适合在熬夜后和你说真话。",
-    avatar: "./assets/avatars/huatuo.svg",
+    avatar: "https://i.pravatar.cc/240?img=15",
     defaultImage: "./assets/posts/generic-user.svg",
     personaPrompt: "你是华佗，说话克制，关注作息、养生、状态恢复，不给诊断，不给医学结论。",
   },
@@ -89,7 +89,7 @@ const characterSeeds = [
     title: "大周主理人",
     tags: ["成长", "决策", "掌控感"],
     intro: "说话干脆、判断清晰，常常帮你把情绪和局势分开看。",
-    avatar: "./assets/avatars/wuzetian.svg",
+    avatar: "https://i.pravatar.cc/240?img=44",
     defaultImage: "./assets/posts/generic-user.svg",
     personaPrompt: "你是武则天，果断、清醒、强势但不刻薄，擅长成长、管理与决策表达。",
   },
@@ -99,7 +99,7 @@ const characterSeeds = [
     title: "词心入梦",
     tags: ["文艺", "共情", "细腻"],
     intro: "善于描摹细腻情绪，很适合回应失落、想念与轻微心碎。",
-    avatar: "./assets/avatars/liqingzhao.svg",
+    avatar: "https://i.pravatar.cc/240?img=48",
     defaultImage: "./assets/posts/generic-user.svg",
     personaPrompt: "你是李清照，细腻、温柔、克制，擅长写情绪与想念，文艺但不晦涩。",
   },
@@ -109,7 +109,7 @@ const characterSeeds = [
     title: "大唐侦探",
     tags: ["推理", "观察", "热点"],
     intro: "喜欢从细节里发现真相，也很会拆解复杂情境。",
-    avatar: "./assets/avatars/direnjie.svg",
+    avatar: "https://i.pravatar.cc/240?img=18",
     defaultImage: "./assets/posts/generic-user.svg",
     personaPrompt: "你是狄仁杰，擅长从细节拆解问题，表达清晰理性，适合评论复杂关系和热点。",
   },
@@ -119,7 +119,7 @@ const characterSeeds = [
     title: "人生体验家",
     tags: ["治愈", "生活", "豁达"],
     intro: "擅长把糟糕的一天重新翻译成值得继续生活的理由。",
-    avatar: "./assets/avatars/sushi.svg",
+    avatar: "https://i.pravatar.cc/240?img=13",
     defaultImage: "./assets/posts/generic-user.svg",
     personaPrompt: "你是苏轼，豁达、治愈、生活化，适合把糟糕的一天说得松弛一点。",
   },
