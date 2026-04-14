@@ -1277,6 +1277,13 @@ button:disabled {
   gap: 10px;
 }
 
+.result-subtitle {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .result-top {
   display: flex;
   align-items: center;

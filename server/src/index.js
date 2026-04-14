@@ -1227,28 +1227,65 @@ app.post("/api/draw", async (req, res) => {
       return res.status(400).json({ error: "今日免费次数已用完" });
     }
 
-    const ownedIds = new Set(listOwnedCharacters(userId).map((item) => item.id));
-    const candidates = characterSeeds.filter((item) => !ownedIds.has(item.id));
-    const shuffled = [...candidates].sort(() => Math.random() - 0.5);
-    const results = shuffled.slice(0, drawCount);
+    const ownedList = listOwnedCharacters(userId);
+    const ownedIds = new Set(ownedList.map((item) => item.id));
+    const freshCandidates = characterSeeds.filter((item) => !ownedIds.has(item.id));
+    const duplicateCandidates = characterSeeds.filter((item) => ownedIds.has(item.id));
+    const results = [];
+
+    const shuffledFresh = [...freshCandidates].sort(() => Math.random() - 0.5);
+    results.push(...shuffledFresh.slice(0, drawCount).map((item) => ({ ...item, duplicate: false, intimacyGain: 0 })));
+
+    if (results.length < drawCount && duplicateCandidates.length) {
+      const needCount = drawCount - results.length;
+      const shuffledDuplicate = [...duplicateCandidates].sort(() => Math.random() - 0.5);
+      const picks = [];
+      while (picks.length < needCount) {
+        picks.push(shuffledDuplicate[picks.length % shuffledDuplicate.length]);
+      }
+      results.push(
+        ...picks.map((item) => ({
+          ...item,
+          duplicate: true,
+          intimacyGain: 8 + Math.floor(Math.random() * 8),
+        }))
+      );
+    }
 
     for (const item of results) {
-      db.prepare(`
-        INSERT OR IGNORE INTO user_characters (user_id, character_id, intimacy, obtained_at)
-        VALUES (?, ?, ?, ?)
-      `).run(userId, item.id, 80 + Math.floor(Math.random() * 30), nowIso());
+      if (item.duplicate) {
+        db.prepare(`
+          UPDATE user_characters
+          SET intimacy = intimacy + ?
+          WHERE user_id = ? AND character_id = ?
+        `).run(item.intimacyGain, userId, item.id);
+      } else {
+        db.prepare(`
+          INSERT OR IGNORE INTO user_characters (user_id, character_id, intimacy, obtained_at)
+          VALUES (?, ?, ?, ?)
+        `).run(userId, item.id, 80 + Math.floor(Math.random() * 30), nowIso());
+      }
     }
 
     setDailyDrawRemaining(userId, remaining - results.length);
 
     if (TEXT_API_KEY && TEXT_MODEL) {
       for (const item of results) {
-        const character = getCharacterByName(item.name);
-        await generateCharacterPost(character, userId);
+        if (!item.duplicate) {
+          const character = getCharacterByName(item.name);
+          await generateCharacterPost(character, userId);
+        }
       }
     }
 
-    addMessage(userId, "系统通知", "新的角色已加入你的朋友圈", "抽到的角色会更频繁地出现在你的首页和评论区。");
+    addMessage(
+      userId,
+      "系统通知",
+      results.some((item) => !item.duplicate) ? "新的角色已加入你的朋友圈" : "和老朋友重逢了",
+      results.some((item) => !item.duplicate)
+        ? "抽到的角色会更频繁地出现在你的首页和评论区。"
+        : "重复抽到的角色已转为亲密度奖励。"
+    );
 
     res.json({
       remaining: getDailyDrawRemaining(userId),
@@ -1256,7 +1293,10 @@ app.post("/api/draw", async (req, res) => {
       results: results.map((item, index) => ({
         name: item.name,
         rarity: index === 0 ? "SSR" : index === 1 ? "SR" : "R",
-        line: db.prepare("SELECT intro FROM characters WHERE id = ?").get(item.id).intro,
+        line: item.duplicate
+          ? `旧友重逢，亲密度 +${item.intimacyGain}`
+          : db.prepare("SELECT intro FROM characters WHERE id = ?").get(item.id).intro,
+        duplicate: item.duplicate,
       })),
       ownedCharacters: listOwnedCharacters(userId).map((item) => item.name),
       feed: getFeed(userId),

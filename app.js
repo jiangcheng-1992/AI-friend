@@ -675,6 +675,20 @@ async function openCharacter(name) {
 }
 
 function renderDrawResults(results) {
+  if (!results.length) {
+    drawResultCards.innerHTML = `
+      <div class="result-card">
+        <div class="result-top">
+          <div class="result-title">
+            <strong>今天的卡池暂时没有新朋友</strong>
+          </div>
+        </div>
+        <p>你已经把常驻角色几乎收齐了，稍后再来，或者继续互动提升亲密度。</p>
+      </div>
+    `;
+    return;
+  }
+
   drawResultCards.innerHTML = results
     .map(
       (item) => `
@@ -682,7 +696,10 @@ function renderDrawResults(results) {
           <div class="result-top">
             <div class="result-title">
               ${getAvatarMarkup(item.name)}
-              <strong>${item.name}</strong>
+              <div>
+                <strong>${item.name}</strong>
+                ${item.duplicate ? `<span class="result-subtitle">已拥有</span>` : ""}
+              </div>
             </div>
             <span class="rarity ${item.rarity.toLowerCase()}">${item.rarity}</span>
           </div>
