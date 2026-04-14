@@ -17,6 +17,7 @@ const appState = {
   feed: [],
   messages: [],
   drawRemaining: 0,
+  drawLimit: 5,
   profile: {
     postCount: 0,
     commentCount: 0,
@@ -218,6 +219,7 @@ function getPostBadge(post) {
 
 function applyBootstrap(data) {
   appState.drawRemaining = data.draw?.remaining ?? 0;
+  appState.drawLimit = data.draw?.limit ?? 5;
   appState.ownedCharacters = data.ownedCharacters || [];
   appState.stories = data.stories || [];
   appState.characters = data.characters || {};
@@ -358,7 +360,7 @@ function renderMessages() {
 }
 
 function updateDrawCount() {
-  drawCount.textContent = `${appState.drawRemaining} / 3`;
+  drawCount.textContent = `${appState.drawRemaining} / ${appState.drawLimit}`;
   heroDrawCount.textContent = appState.drawRemaining;
 }
 
@@ -948,7 +950,7 @@ async function initApp() {
     loadLikedPosts();
     await loadBootstrap();
     if (!appState.modelReady) {
-      showToast("未检测到豆包配置，请先填写 .env 后启动后端");
+      showToast("未检测到 AI 配置，请先填写 .env 后启动后端");
     }
     switchTab("home");
   } catch (error) {

@@ -15,11 +15,13 @@ const projectRoot = path.resolve(__dirname, "..", "..");
 dotenv.config({ path: path.join(projectRoot, ".env") });
 
 const PORT = Number(process.env.API_PORT || 8787);
-const ARK_BASE_URL = process.env.ARK_BASE_URL || "https://ark.cn-beijing.volces.com/api/v3";
-const ARK_API_KEY = process.env.ARK_API_KEY || "";
-const ARK_IMAGE_API_KEY = process.env.ARK_IMAGE_API_KEY || ARK_API_KEY;
-const ARK_MODEL = process.env.ARK_MODEL || "";
-const ARK_IMAGE_MODEL = process.env.ARK_IMAGE_MODEL || "";
+const TEXT_BASE_URL = process.env.MINIMAX_TEXT_BASE_URL || process.env.ARK_BASE_URL || "https://api.minimaxi.com/v1";
+const TEXT_API_KEY = process.env.MINIMAX_API_KEY || process.env.ARK_API_KEY || "";
+const TEXT_MODEL = process.env.MINIMAX_TEXT_MODEL || process.env.ARK_MODEL || "MiniMax-M2.5-highspeed";
+const IMAGE_API_KEY = process.env.MINIMAX_IMAGE_API_KEY || process.env.ARK_IMAGE_API_KEY || TEXT_API_KEY;
+const IMAGE_MODEL = process.env.MINIMAX_IMAGE_MODEL || process.env.ARK_IMAGE_MODEL || "image-01";
+const IMAGE_API_URL = process.env.MINIMAX_IMAGE_API_URL || "https://api.minimaxi.com/v1/image_generation";
+const DAILY_FREE_DRAW_LIMIT = Number(process.env.DAILY_FREE_DRAW_LIMIT || 5);
 const USER_AVATAR_URL = "./assets/avatars/user.svg";
 const staticAssetsDir = path.join(projectRoot, "assets");
 const staticIndexFile = path.join(projectRoot, "index.html");
@@ -270,7 +272,7 @@ function ensureUser(userId) {
 function ensureDailyDraw(userId) {
   const row = db.prepare("SELECT * FROM daily_draws WHERE user_id = ? AND draw_date = ?").get(userId, todayKey());
   if (!row) {
-    db.prepare("INSERT INTO daily_draws (user_id, draw_date, remaining) VALUES (?, ?, 3)").run(userId, todayKey());
+    db.prepare("INSERT INTO daily_draws (user_id, draw_date, remaining) VALUES (?, ?, ?)").run(userId, todayKey(), DAILY_FREE_DRAW_LIMIT);
   }
 }
 
@@ -657,39 +659,54 @@ function addMessage(userId, type, title, content) {
 }
 
 function getClient() {
-  if (!ARK_API_KEY || !ARK_MODEL) {
-    throw new Error("未配置 ARK_API_KEY 或 ARK_MODEL，请先在 .env 中填写豆包配置。");
+  if (!TEXT_API_KEY || !TEXT_MODEL) {
+    throw new Error("未配置文本模型参数，请先在 .env 中填写 MiniMax 配置。");
   }
   return new OpenAI({
-    apiKey: ARK_API_KEY,
-    baseURL: ARK_BASE_URL,
+    apiKey: TEXT_API_KEY,
+    baseURL: TEXT_BASE_URL,
   });
 }
 
-function getImageClient() {
-  if (!ARK_IMAGE_API_KEY || !ARK_IMAGE_MODEL) {
-    throw new Error("未配置 ARK_IMAGE_API_KEY 或 ARK_IMAGE_MODEL，请先在 .env 中填写文生图配置。");
+function assertImageConfig() {
+  if (!IMAGE_API_KEY || !IMAGE_MODEL) {
+    throw new Error("未配置图片模型参数，请先在 .env 中填写 MiniMax 图片配置。");
   }
-  return new OpenAI({
-    apiKey: ARK_IMAGE_API_KEY,
-    baseURL: ARK_BASE_URL,
-  });
 }
 
 async function chatJson(systemPrompt, userPrompt) {
   const client = getClient();
-  const completion = await client.chat.completions.create({
-    model: ARK_MODEL,
-    temperature: 0.9,
-    response_format: { type: "json_object" },
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userPrompt },
-    ],
-  });
+  let lastError = null;
 
-  const content = completion.choices?.[0]?.message?.content || "{}";
-  return JSON.parse(content);
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      const completion = await client.chat.completions.create({
+        model: TEXT_MODEL,
+        temperature: attempt === 0 ? 0.9 : 0.4,
+        response_format: { type: "json_object" },
+        extra_body: { reasoning_split: true },
+        messages: [
+          { role: "system", content: `${systemPrompt}\n请只返回合法 JSON 对象，不要输出额外解释。` },
+          { role: "user", content: userPrompt },
+        ],
+      });
+
+      const rawContent = completion.choices?.[0]?.message?.content || "{}";
+      const cleanedContent = String(rawContent)
+        .replace(/<think>[\s\S]*?<\/think>/gi, "")
+        .trim();
+      const jsonStart = cleanedContent.indexOf("{");
+      const jsonEnd = cleanedContent.lastIndexOf("}");
+      const jsonText =
+        jsonStart >= 0 && jsonEnd > jsonStart ? cleanedContent.slice(jsonStart, jsonEnd + 1) : cleanedContent;
+
+      return JSON.parse(jsonText);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("模型未返回有效 JSON");
 }
 
 function buildCharacterImagePrompt(character, content, imageHint, topicSeed) {
@@ -721,14 +738,29 @@ function buildSafeFallbackImagePrompt(character, content, imageHint, topicSeed) 
 }
 
 async function requestImageGeneration(prompt) {
-  const client = getImageClient();
-  const response = await client.images.generate({
-    model: ARK_IMAGE_MODEL,
-    prompt,
-    size: "2048x2048",
+  assertImageConfig();
+  const response = await fetch(IMAGE_API_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${IMAGE_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: IMAGE_MODEL,
+      prompt,
+      aspect_ratio: "4:3",
+      response_format: "url",
+      n: 1,
+      prompt_optimizer: false,
+      aigc_watermark: false,
+    }),
   });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data?.base_resp?.status_msg || data?.message || `图片生成失败(${response.status})`);
+  }
 
-  return response?.data?.[0]?.url || "";
+  return data?.data?.[0]?.url || data?.data?.image_urls?.[0] || "";
 }
 
 async function generatePostImage(character, content, imageHint, topicSeed) {
@@ -771,7 +803,7 @@ async function backfillGeneratedImageForPost(post) {
 }
 
 async function backfillPendingImages(limit = 6) {
-  if (!ARK_IMAGE_API_KEY || !ARK_IMAGE_MODEL) return;
+  if (!IMAGE_API_KEY || !IMAGE_MODEL) return;
 
   const posts = db
     .prepare(`
@@ -1022,7 +1054,7 @@ async function generateReplyAfterUserComment(character, post, replyContent, thre
 }
 
 async function ensureSeedFeedForUser(userId) {
-  if (!ARK_API_KEY || !ARK_MODEL) {
+  if (!TEXT_API_KEY || !TEXT_MODEL) {
     return;
   }
 
@@ -1051,7 +1083,7 @@ async function ensureSeedFeedForUser(userId) {
 }
 
 async function runDailyGenerationForAllUsers() {
-  if (!ARK_API_KEY || !ARK_MODEL) return;
+  if (!TEXT_API_KEY || !TEXT_MODEL) return;
   const users = db.prepare("SELECT id FROM users").all();
   for (const user of users) {
     await ensureSeedFeedForUser(user.id);
@@ -1093,9 +1125,9 @@ function profileStats(userId) {
 app.get("/api/health", (_req, res) => {
   res.json({
     ok: true,
-    provider: "doubao-ark",
-    modelConfigured: Boolean(ARK_API_KEY && ARK_MODEL),
-    baseUrl: ARK_BASE_URL,
+    provider: "minimax",
+    modelConfigured: Boolean(TEXT_API_KEY && TEXT_MODEL),
+    baseUrl: TEXT_BASE_URL,
   });
 });
 
@@ -1114,7 +1146,7 @@ app.get("/api/bootstrap", async (req, res) => {
 
     res.json({
       user: { id: userId, nickname: "晚风不晚" },
-      draw: { remaining: getDailyDrawRemaining(userId) },
+      draw: { remaining: getDailyDrawRemaining(userId), limit: DAILY_FREE_DRAW_LIMIT },
       ownedCharacters: owned.map((item) => item.name),
       profile: stats,
       stories: owned.slice(0, 6).map((item, index) => ({
@@ -1139,7 +1171,7 @@ app.get("/api/bootstrap", async (req, res) => {
       ),
       feed: getFeed(userId),
       messages: getMessages(userId),
-      modelReady: Boolean(ARK_API_KEY && ARK_MODEL),
+      modelReady: Boolean(TEXT_API_KEY && TEXT_MODEL),
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -1206,7 +1238,7 @@ app.post("/api/draw", async (req, res) => {
 
     setDailyDrawRemaining(userId, remaining - results.length);
 
-    if (ARK_API_KEY && ARK_MODEL) {
+    if (TEXT_API_KEY && TEXT_MODEL) {
       for (const item of results) {
         const character = getCharacterByName(item.name);
         await generateCharacterPost(character, userId);
@@ -1217,6 +1249,7 @@ app.post("/api/draw", async (req, res) => {
 
     res.json({
       remaining: getDailyDrawRemaining(userId),
+      limit: DAILY_FREE_DRAW_LIMIT,
       results: results.map((item, index) => ({
         name: item.name,
         rarity: index === 0 ? "SSR" : index === 1 ? "SR" : "R",
@@ -1251,7 +1284,7 @@ app.post("/api/posts", async (req, res) => {
     let generatedCommentCount = 0;
     let aiError = "";
 
-    if (ARK_API_KEY && ARK_MODEL) {
+    if (TEXT_API_KEY && TEXT_MODEL) {
       const result = await generateAiCommentsForPost(userId, postId, owned);
       generatedCommentCount = result.generatedCommentCount;
       aiError = result.aiError;
@@ -1298,7 +1331,7 @@ app.post("/api/posts/:id/reply", async (req, res) => {
     let aiReplyGenerated = false;
     let aiReplyCount = 0;
     let aiReplyError = "";
-    if (rankedCharacters.length && ARK_API_KEY && ARK_MODEL) {
+    if (rankedCharacters.length && TEXT_API_KEY && TEXT_MODEL) {
       const result = await generateAiRepliesForThread(userId, post, String(content).trim(), rankedCharacters, {
         targetCommentId,
         targetCharacterName,
@@ -1344,6 +1377,6 @@ seedCharacters();
 
 app.listen(PORT, async () => {
   console.log(`API server running at http://localhost:${PORT}`);
-  console.log(`Doubao Ark ready: ${Boolean(ARK_API_KEY && ARK_MODEL)}`);
+  console.log(`MiniMax ready: ${Boolean(TEXT_API_KEY && TEXT_MODEL)}`);
   await runBackgroundJobs();
 });

@@ -11,7 +11,9 @@ services:
       - key: API_PORT
         value: 10000
       - key: ARK_BASE_URL
-        value: https://ark.cn-beijing.volces.com/api/v3
+        value: https://api.minimaxi.com/v1
+      - key: MINIMAX_IMAGE_API_URL
+        value: https://api.minimaxi.com/v1/image_generation
       - key: ARK_API_KEY
         sync: false
       - key: ARK_MODEL
