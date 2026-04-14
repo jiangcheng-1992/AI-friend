@@ -8,4 +8,8 @@
   <path d="M252 196c18-40 45-72 82-98 23 14 42 34 58 62-40 24-85 37-140 36z" fill="#d7bf86" opacity="0.88"/>
   <path d="M252 198c42-1 88-16 144-47" stroke="#f8f0d7" stroke-width="5" fill="none" stroke-linecap="round"/>
   <circle cx="370" cy="72" r="30" fill="#fff6d7" opacity="0.9"/>
+<<<<<<< HEAD
 </svg>
+=======
+</svg>
+>>>>>>> 333f8c13e290c18e90c08fe2390de17cfba0345e

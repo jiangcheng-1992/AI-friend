@@ -7,4 +7,8 @@
   <circle cx="50" cy="48" r="7" fill="none" stroke="#d9edf8" stroke-width="3"/>
   <circle cx="78" cy="48" r="7" fill="none" stroke="#d9edf8" stroke-width="3"/>
   <path d="M57 48h14" stroke="#d9edf8" stroke-width="3"/>
+<<<<<<< HEAD
 </svg>
+=======
+</svg>
+>>>>>>> 333f8c13e290c18e90c08fe2390de17cfba0345e

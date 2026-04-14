@@ -6,4 +6,8 @@
   <path d="M37 44c6-16 16-25 27-25 11 0 23 8 27 25-6-6-18-10-27-10s-20 4-27 10z" fill="#4f4337"/>
   <path d="M51 60c4 5 8 8 13 8 6 0 11-3 15-8" stroke="#a88260" stroke-width="3" fill="none" stroke-linecap="round"/>
   <path d="M49 73c3 9 9 14 15 14s12-5 15-14" stroke="#f4f0e8" stroke-width="8" fill="none" stroke-linecap="round"/>
+<<<<<<< HEAD
 </svg>
+=======
+</svg>
+>>>>>>> 333f8c13e290c18e90c08fe2390de17cfba0345e

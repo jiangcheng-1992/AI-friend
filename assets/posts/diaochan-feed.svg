@@ -15,4 +15,8 @@
   <rect x="236" y="160" width="116" height="44" rx="22" fill="#fbd0df" opacity="0.86"/>
   <circle cx="377" cy="182" r="24" fill="#ffe7a8" opacity="0.95"/>
   <path d="M286 194c20-36 58-46 97-26" stroke="#fff2e8" stroke-width="6" fill="none" stroke-linecap="round"/>
+<<<<<<< HEAD
 </svg>
+=======
+</svg>
+>>>>>>> 333f8c13e290c18e90c08fe2390de17cfba0345e

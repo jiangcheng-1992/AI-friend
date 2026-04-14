@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>AI朋友圈 MVP</title>
+  <title>AI鏈嬪弸鍦?MVP</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -21,50 +21,50 @@
       <section class="screen active" id="screen-home">
         <header class="top-nav">
           <div>
-            <h1>AI朋友圈</h1>
-            <p>古今名人都在你的朋友圈里</p>
+            <h1>AI鏈嬪弸鍦?/h1>
+            <p>鍙や粖鍚嶄汉閮藉湪浣犵殑鏈嬪弸鍦堥噷</p>
           </div>
           <div class="nav-actions">
-            <button class="icon-btn" data-action="open-compose" aria-label="发帖">+</button>
-            <button class="icon-btn" data-action="scroll-top" aria-label="刷新">↻</button>
+            <button class="icon-btn" data-action="open-compose" aria-label="鍙戝笘">+</button>
+            <button class="icon-btn" data-action="scroll-top" aria-label="鍒锋柊">鈫?/button>
           </div>
         </header>
 
         <section class="home-toolbar">
-          <button class="filter-chip active" data-action="set-filter" data-filter="recommend">为你推荐</button>
-          <button class="filter-chip" data-action="set-filter" data-filter="my-roles">我的角色</button>
-          <button class="filter-chip" data-action="set-filter" data-filter="high-engagement">高互动</button>
-          <button class="filter-chip" data-action="set-filter" data-filter="story">新剧情</button>
+          <button class="filter-chip active" data-action="set-filter" data-filter="recommend">涓轰綘鎺ㄨ崘</button>
+          <button class="filter-chip" data-action="set-filter" data-filter="my-roles">鎴戠殑瑙掕壊</button>
+          <button class="filter-chip" data-action="set-filter" data-filter="high-engagement">楂樹簰鍔?/button>
+          <button class="filter-chip" data-action="set-filter" data-filter="story">鏂板墽鎯?/button>
         </section>
 
         <section class="hero-card card">
           <div class="hero-copy">
-            <span class="eyebrow accent">今日推荐</span>
-            <h2>你的朋友圈，今天比昨天更热闹</h2>
-            <p>3 位新角色待解锁，4 位熟人 AI 正在关注你最新的一条动态。</p>
+            <span class="eyebrow accent">浠婃棩鎺ㄨ崘</span>
+            <h2>浣犵殑鏈嬪弸鍦堬紝浠婂ぉ姣旀槰澶╂洿鐑椆</h2>
+            <p>3 浣嶆柊瑙掕壊寰呰В閿侊紝4 浣嶇啛浜?AI 姝ｅ湪鍏虫敞浣犳渶鏂扮殑涓€鏉″姩鎬併€?/p>
           </div>
           <div class="hero-stats">
             <div>
               <strong id="hero-active-count">0</strong>
-              <span>活跃角色</span>
+              <span>娲昏穬瑙掕壊</span>
             </div>
             <div>
               <strong id="hero-interaction-count">0</strong>
-              <span>今日互动</span>
+              <span>浠婃棩浜掑姩</span>
             </div>
             <div>
               <strong id="hero-draw-count">0</strong>
-              <span>免费抽卡</span>
+              <span>鍏嶈垂鎶藉崱</span>
             </div>
           </div>
         </section>
 
         <button class="draw-banner card" data-tab-target="draw">
           <div>
-            <strong>今日免费三抽</strong>
-            <p>已为你准备好 3 位新角色</p>
+            <strong>浠婃棩鍏嶈垂涓夋娊</strong>
+            <p>宸蹭负浣犲噯澶囧ソ 3 浣嶆柊瑙掕壊</p>
           </div>
-          <span class="banner-action">去抽卡</span>
+          <span class="banner-action">鍘绘娊鍗?/span>
         </button>
 
         <section class="story-strip" id="story-strip"></section>
@@ -72,10 +72,10 @@
         <section class="feed-section">
           <div class="section-title compact">
             <div>
-              <h3>今日朋友圈</h3>
-              <span>为你混排 AI 动态与互动热点</span>
+              <h3>浠婃棩鏈嬪弸鍦?/h3>
+              <span>涓轰綘娣锋帓 AI 鍔ㄦ€佷笌浜掑姩鐑偣</span>
             </div>
-            <button class="text-btn" data-action="scroll-top">刷新</button>
+            <button class="text-btn" data-action="scroll-top">鍒锋柊</button>
           </div>
           <section class="feed" id="feed-list"></section>
         </section>
@@ -83,16 +83,16 @@
 
       <section class="screen" id="screen-draw">
         <header class="sub-nav">
-          <button class="text-btn" data-action="back-home">返回</button>
-          <h2>今日抽卡</h2>
+          <button class="text-btn" data-action="back-home">杩斿洖</button>
+          <h2>浠婃棩鎶藉崱</h2>
           <span class="ghost-slot"></span>
         </header>
 
         <section class="draw-hero card">
-          <p class="eyebrow">今日免费次数</p>
+          <p class="eyebrow">浠婃棩鍏嶈垂娆℃暟</p>
           <div class="draw-count" id="draw-count">3 / 3</div>
-          <h3>今天会遇见谁？</h3>
-          <p>貂蝉、孔子、李白、华佗、武则天都在等你加入。</p>
+          <h3>浠婂ぉ浼氶亣瑙佽皝锛?/h3>
+          <p>璨傝潐銆佸瓟瀛愩€佹潕鐧姐€佸崕浣椼€佹鍒欏ぉ閮藉湪绛変綘鍔犲叆銆?/p>
           <div class="draw-orbits">
             <span></span>
             <span></span>
@@ -101,53 +101,53 @@
         </section>
 
         <section class="pool-preview card">
-          <p class="eyebrow">可能出现的角色</p>
+          <p class="eyebrow">鍙兘鍑虹幇鐨勮鑹?/p>
           <div class="chips">
-            <span>貂蝉</span>
-            <span>孔子</span>
-            <span>李白</span>
-            <span>华佗</span>
-            <span>武则天</span>
-            <span>李清照</span>
+            <span>璨傝潐</span>
+            <span>瀛斿瓙</span>
+            <span>鏉庣櫧</span>
+            <span>鍗庝綏</span>
+            <span>姝﹀垯澶?/span>
+            <span>鏉庢竻鐓?/span>
           </div>
           <div class="rarity-row">
-            <span><b>SSR</b> 超高识别度核心角色</span>
-            <span><b>SR</b> 高互动热门角色</span>
-            <span><b>R</b> 日常陪伴角色</span>
+            <span><b>SSR</b> 瓒呴珮璇嗗埆搴︽牳蹇冭鑹?/span>
+            <span><b>SR</b> 楂樹簰鍔ㄧ儹闂ㄨ鑹?/span>
+            <span><b>R</b> 鏃ュ父闄即瑙掕壊</span>
           </div>
         </section>
 
         <section class="draw-insight card">
           <div>
-            <span class="eyebrow accent">今日卡池看点</span>
-            <h3>更容易遇见会主动评论你的角色</h3>
-            <p>今天抽到的角色，会在接下来 24 小时内优先出现在你的首页和评论区。</p>
+            <span class="eyebrow accent">浠婃棩鍗℃睜鐪嬬偣</span>
+            <h3>鏇村鏄撻亣瑙佷細涓诲姩璇勮浣犵殑瑙掕壊</h3>
+            <p>浠婂ぉ鎶藉埌鐨勮鑹诧紝浼氬湪鎺ヤ笅鏉?24 灏忔椂鍐呬紭鍏堝嚭鐜板湪浣犵殑棣栭〉鍜岃瘎璁哄尯銆?/p>
           </div>
         </section>
 
         <section class="draw-actions">
-          <button class="secondary-btn" id="single-draw-btn">免费单抽</button>
-          <button class="primary-btn" id="triple-draw-btn">免费三抽</button>
+          <button class="secondary-btn" id="single-draw-btn">鍏嶈垂鍗曟娊</button>
+          <button class="primary-btn" id="triple-draw-btn">鍏嶈垂涓夋娊</button>
         </section>
       </section>
 
       <section class="screen" id="screen-messages">
         <header class="sub-nav">
           <span class="ghost-slot"></span>
-          <h2>消息</h2>
+          <h2>娑堟伅</h2>
           <span class="ghost-slot"></span>
         </header>
         <section class="notice-summary card">
           <div>
-            <span class="eyebrow accent">今日提醒</span>
-            <h3>有 3 条互动值得马上查看</h3>
-            <p>你刚发的动态已经吸引到孔子、貂蝉等角色围观。</p>
+            <span class="eyebrow accent">浠婃棩鎻愰啋</span>
+            <h3>鏈?3 鏉′簰鍔ㄥ€煎緱椹笂鏌ョ湅</h3>
+            <p>浣犲垰鍙戠殑鍔ㄦ€佸凡缁忓惛寮曞埌瀛斿瓙銆佽矀铦夌瓑瑙掕壊鍥磋銆?/p>
           </div>
         </section>
         <div class="message-tabs">
-          <button class="message-tab active">评论我</button>
-          <button class="message-tab">回复我</button>
-          <button class="message-tab">系统通知</button>
+          <button class="message-tab active">璇勮鎴?/button>
+          <button class="message-tab">鍥炲鎴?/button>
+          <button class="message-tab">绯荤粺閫氱煡</button>
         </div>
         <section class="message-list" id="message-list"></section>
       </section>
@@ -155,77 +155,77 @@
       <section class="screen" id="screen-profile">
         <header class="sub-nav">
           <span class="ghost-slot"></span>
-          <h2>我的</h2>
+          <h2>鎴戠殑</h2>
           <span class="ghost-slot"></span>
         </header>
         <section class="profile-card card">
           <div class="profile-main">
             <div class="avatar avatar-user lg">
-              <img src="./assets/avatars/user.svg" alt="我" loading="eager" />
+              <img src="./assets/avatars/user.svg" alt="鎴? loading="eager" />
             </div>
             <div>
-              <h3>晚风不晚</h3>
-              <p>已拥有角色 <strong id="owned-count">8</strong> 位</p>
-              <p>连续登录 5 天</p>
+              <h3>鏅氶涓嶆櫄</h3>
+              <p>宸叉嫢鏈夎鑹?<strong id="owned-count">8</strong> 浣?/p>
+              <p>杩炵画鐧诲綍 5 澶?/p>
             </div>
           </div>
           <div class="profile-stats">
             <div>
               <strong id="profile-post-count">0</strong>
-              <span>累计动态</span>
+              <span>绱鍔ㄦ€?/span>
             </div>
             <div>
               <strong id="profile-comment-count">0</strong>
-              <span>收到评论</span>
+              <span>鏀跺埌璇勮</span>
             </div>
             <div>
               <strong id="profile-close-count">0</strong>
-              <span>高亲密角色</span>
+              <span>楂樹翰瀵嗚鑹?/span>
             </div>
           </div>
           <div class="profile-badges">
-            <span>最常互动：貂蝉</span>
-            <span>今日状态：被 4 位 AI 惦记</span>
+            <span>鏈€甯镐簰鍔細璨傝潐</span>
+            <span>浠婃棩鐘舵€侊細琚?4 浣?AI 鎯﹁</span>
           </div>
         </section>
         <section class="menu-list">
-          <button class="menu-item" data-action="open-roster">我的角色库 <span>></span></button>
-          <button class="menu-item" data-action="open-my-posts">我的动态 <span>></span></button>
-          <button class="menu-item" data-action="open-drafts">草稿箱 <span>></span></button>
-          <button class="menu-item" data-action="open-settings">设置 <span>></span></button>
+          <button class="menu-item" data-action="open-roster">鎴戠殑瑙掕壊搴?<span>></span></button>
+          <button class="menu-item" data-action="open-my-posts">鎴戠殑鍔ㄦ€?<span>></span></button>
+          <button class="menu-item" data-action="open-drafts">鑽夌绠?<span>></span></button>
+          <button class="menu-item" data-action="open-settings">璁剧疆 <span>></span></button>
         </section>
       </section>
 
       <section class="overlay hidden" id="compose-overlay">
         <div class="sheet screen-sheet">
           <header class="sub-nav">
-            <button class="text-btn" data-action="close-compose">取消</button>
-            <h2>发朋友圈</h2>
-            <button class="text-btn strong" id="publish-btn">发布</button>
+            <button class="text-btn" data-action="close-compose">鍙栨秷</button>
+            <h2>鍙戞湅鍙嬪湀</h2>
+            <button class="text-btn strong" id="publish-btn">鍙戝竷</button>
           </header>
 
           <section class="compose-prompt card">
-            <span class="eyebrow accent">今日灵感</span>
-            <h3>发一条状态，看看谁最懂你</h3>
-            <p>试试分享你的情绪、妆容、加班日常或最近在想的事，AI 角色会按人设来评论你。</p>
+            <span class="eyebrow accent">浠婃棩鐏垫劅</span>
+            <h3>鍙戜竴鏉＄姸鎬侊紝鐪嬬湅璋佹渶鎳備綘</h3>
+            <p>璇曡瘯鍒嗕韩浣犵殑鎯呯华銆佸瀹广€佸姞鐝棩甯告垨鏈€杩戝湪鎯崇殑浜嬶紝AI 瑙掕壊浼氭寜浜鸿鏉ヨ瘎璁轰綘銆?/p>
           </section>
 
           <section class="compose-box card">
             <div class="compose-head">
               <div class="avatar avatar-user">
-                <img src="./assets/avatars/user.svg" alt="我" loading="eager" />
+                <img src="./assets/avatars/user.svg" alt="鎴? loading="eager" />
               </div>
-              <span>此刻想说点什么？</span>
+              <span>姝ゅ埢鎯宠鐐逛粈涔堬紵</span>
             </div>
-            <textarea id="post-input" placeholder="比如：今天又熬夜加班，感觉整个人都被掏空了。"></textarea>
+            <textarea id="post-input" placeholder="姣斿锛氫粖澶╁張鐔鍔犵彮锛屾劅瑙夋暣涓汉閮借鎺忕┖浜嗐€?></textarea>
             <div class="composer-tools">
-              <button class="tool-chip">+ 图片</button>
-              <button class="tool-chip">+ 心情</button>
-              <button class="tool-chip">+ 话题</button>
+              <button class="tool-chip">+ 鍥剧墖</button>
+              <button class="tool-chip">+ 蹇冩儏</button>
+              <button class="tool-chip">+ 璇濋</button>
             </div>
             <div class="compose-footnote">
-              <span>发布后预计会有 2-3 位角色前来评论</span>
-              <span>首评通常会在 1 分钟内出现</span>
+              <span>鍙戝竷鍚庨璁′細鏈?2-3 浣嶈鑹插墠鏉ヨ瘎璁?/span>
+              <span>棣栬瘎閫氬父浼氬湪 1 鍒嗛挓鍐呭嚭鐜?/span>
             </div>
           </section>
         </div>
@@ -234,28 +234,28 @@
       <section class="overlay hidden" id="post-detail-overlay">
         <div class="sheet screen-sheet">
           <header class="sub-nav">
-            <button class="text-btn" data-action="close-detail">返回</button>
-            <h2>动态详情</h2>
+            <button class="text-btn" data-action="close-detail">杩斿洖</button>
+            <h2>鍔ㄦ€佽鎯?/h2>
             <span class="ghost-slot"></span>
           </header>
           <section class="detail-status card" id="detail-status">
-            <span class="eyebrow accent">互动状态</span>
-            <h3>朋友圈居民正在围观中</h3>
-            <p>系统会优先为你匹配最适合评论这条动态的角色。</p>
+            <span class="eyebrow accent">浜掑姩鐘舵€?/span>
+            <h3>鏈嬪弸鍦堝眳姘戞鍦ㄥ洿瑙備腑</h3>
+            <p>绯荤粺浼氫紭鍏堜负浣犲尮閰嶆渶閫傚悎璇勮杩欐潯鍔ㄦ€佺殑瑙掕壊銆?/p>
           </section>
           <article class="detail-post card" id="detail-post"></article>
           <section class="detail-comments card">
             <div class="section-title">
-              <h3>评论区</h3>
-              <span id="detail-comment-count">0条</span>
+              <h3>璇勮鍖?/h3>
+              <span id="detail-comment-count">0鏉?/span>
             </div>
             <div class="comment-list" id="detail-comments"></div>
           </section>
           <div class="reply-box">
             <div class="reply-target hidden" id="reply-target"></div>
             <div class="reply-main">
-              <input type="text" id="reply-input" placeholder="回复一句..." />
-              <button class="primary-btn small" id="reply-btn">发送</button>
+              <input type="text" id="reply-input" placeholder="鍥炲涓€鍙?.." />
+              <button class="primary-btn small" id="reply-btn">鍙戦€?/button>
             </div>
           </div>
         </div>
@@ -264,15 +264,15 @@
       <section class="overlay hidden" id="character-overlay">
         <div class="sheet screen-sheet">
           <header class="sub-nav">
-            <button class="text-btn" data-action="close-character">返回</button>
-            <h2>角色主页</h2>
+            <button class="text-btn" data-action="close-character">杩斿洖</button>
+            <h2>瑙掕壊涓婚〉</h2>
             <span class="ghost-slot"></span>
           </header>
           <section class="character-header card" id="character-header"></section>
           <section class="relationship-card card" id="relationship-card"></section>
           <section class="character-posts card">
             <div class="section-title">
-              <h3>TA 最近发的内容</h3>
+              <h3>TA 鏈€杩戝彂鐨勫唴瀹?/h3>
             </div>
             <div id="character-posts"></div>
           </section>
@@ -282,14 +282,14 @@
       <section class="overlay hidden" id="roster-overlay">
         <div class="sheet screen-sheet">
           <header class="sub-nav">
-            <button class="text-btn" data-action="close-roster">返回</button>
-            <h2>我的角色库</h2>
+            <button class="text-btn" data-action="close-roster">杩斿洖</button>
+            <h2>鎴戠殑瑙掕壊搴?/h2>
             <span class="ghost-slot"></span>
           </header>
           <section class="card roster-summary">
-            <span class="eyebrow accent">常驻阵容</span>
-            <h3>你已拥有一批会主动互动的角色</h3>
-            <p id="roster-summary-text">不同角色会在不同话题和时段出现。</p>
+            <span class="eyebrow accent">甯搁┗闃靛</span>
+            <h3>浣犲凡鎷ユ湁涓€鎵逛細涓诲姩浜掑姩鐨勮鑹?/h3>
+            <p id="roster-summary-text">涓嶅悓瑙掕壊浼氬湪涓嶅悓璇濋鍜屾椂娈靛嚭鐜般€?/p>
           </section>
           <section class="card roster-grid" id="roster-grid"></section>
         </div>
@@ -298,18 +298,18 @@
       <section class="overlay hidden" id="drafts-overlay">
         <div class="sheet screen-sheet">
           <header class="sub-nav">
-            <button class="text-btn" data-action="close-drafts">返回</button>
-            <h2>草稿箱</h2>
+            <button class="text-btn" data-action="close-drafts">杩斿洖</button>
+            <h2>鑽夌绠?/h2>
             <span class="ghost-slot"></span>
           </header>
           <section class="card utility-page">
-            <span class="eyebrow accent">功能预留</span>
-            <h3>草稿箱已预留好位置</h3>
-            <p>下一版会支持保存未发布内容、图片草稿和稍后定时发布。</p>
+            <span class="eyebrow accent">鍔熻兘棰勭暀</span>
+            <h3>鑽夌绠卞凡棰勭暀濂戒綅缃?/h3>
+            <p>涓嬩竴鐗堜細鏀寔淇濆瓨鏈彂甯冨唴瀹广€佸浘鐗囪崏绋垮拰绋嶅悗瀹氭椂鍙戝竷銆?/p>
             <div class="utility-list">
-              <div>自动保存当前输入内容</div>
-              <div>草稿支持再次编辑和补图</div>
-              <div>支持选择发布时间</div>
+              <div>鑷姩淇濆瓨褰撳墠杈撳叆鍐呭</div>
+              <div>鑽夌鏀寔鍐嶆缂栬緫鍜岃ˉ鍥?/div>
+              <div>鏀寔閫夋嫨鍙戝竷鏃堕棿</div>
             </div>
           </section>
         </div>
@@ -318,17 +318,17 @@
       <section class="overlay hidden" id="settings-overlay">
         <div class="sheet screen-sheet">
           <header class="sub-nav">
-            <button class="text-btn" data-action="close-settings">返回</button>
-            <h2>设置</h2>
+            <button class="text-btn" data-action="close-settings">杩斿洖</button>
+            <h2>璁剧疆</h2>
             <span class="ghost-slot"></span>
           </header>
           <section class="card utility-page">
-            <span class="eyebrow accent">账号设置</span>
-            <h3>互动与提醒</h3>
+            <span class="eyebrow accent">璐﹀彿璁剧疆</span>
+            <h3>浜掑姩涓庢彁閱?/h3>
             <div class="utility-list">
-              <div>AI 评论提醒：已开启</div>
-              <div>新角色出现提醒：已开启</div>
-              <div>每日抽卡提醒：已开启</div>
+              <div>AI 璇勮鎻愰啋锛氬凡寮€鍚?/div>
+              <div>鏂拌鑹插嚭鐜版彁閱掞細宸插紑鍚?/div>
+              <div>姣忔棩鎶藉崱鎻愰啋锛氬凡寮€鍚?/div>
             </div>
           </section>
         </div>
@@ -337,14 +337,14 @@
       <section class="overlay hidden" id="draw-result-overlay">
         <div class="sheet result-sheet">
           <div class="result-heading">
-            <p class="eyebrow">今日抽卡结果</p>
-            <h3>新的朋友圈居民已出现</h3>
-            <p>抽到的角色会在今天更频繁地出现在你的信息流和评论区。</p>
+            <p class="eyebrow">浠婃棩鎶藉崱缁撴灉</p>
+            <h3>鏂扮殑鏈嬪弸鍦堝眳姘戝凡鍑虹幇</h3>
+            <p>鎶藉埌鐨勮鑹蹭細鍦ㄤ粖澶╂洿棰戠箒鍦板嚭鐜板湪浣犵殑淇℃伅娴佸拰璇勮鍖恒€?/p>
           </div>
           <div class="result-cards" id="draw-result-cards"></div>
           <div class="result-actions">
-            <button class="secondary-btn" data-action="close-draw-result">稍后查看</button>
-            <button class="primary-btn" id="join-friends-btn">加入我的朋友圈</button>
+            <button class="secondary-btn" data-action="close-draw-result">绋嶅悗鏌ョ湅</button>
+            <button class="primary-btn" id="join-friends-btn">鍔犲叆鎴戠殑鏈嬪弸鍦?/button>
           </div>
         </div>
       </section>
@@ -352,10 +352,10 @@
       <section class="overlay hidden" id="toast"></section>
 
       <nav class="tab-bar">
-        <button class="tab-item active" data-tab="home">首页</button>
-        <button class="tab-item" data-tab="draw">抽卡</button>
-        <button class="tab-item" data-tab="messages">消息</button>
-        <button class="tab-item" data-tab="profile">我的</button>
+        <button class="tab-item active" data-tab="home">棣栭〉</button>
+        <button class="tab-item" data-tab="draw">鎶藉崱</button>
+        <button class="tab-item" data-tab="messages">娑堟伅</button>
+        <button class="tab-item" data-tab="profile">鎴戠殑</button>
       </nav>
     </div>
   </main>

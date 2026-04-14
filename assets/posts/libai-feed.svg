@@ -9,4 +9,8 @@
   <path d="M248 90c18 12 34 28 48 48" stroke="#dbe6ff" stroke-width="6" fill="none" stroke-linecap="round"/>
   <rect x="56" y="44" width="124" height="20" rx="10" fill="#dce7ff" opacity="0.88"/>
   <rect x="56" y="74" width="170" height="10" rx="5" fill="#a9b9f5" opacity="0.7"/>
+<<<<<<< HEAD
  </svg>
+=======
+ </svg>
+>>>>>>> 333f8c13e290c18e90c08fe2390de17cfba0345e
