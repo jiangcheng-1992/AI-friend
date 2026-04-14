@@ -115,32 +115,32 @@ async function apiFetch(path, options = {}) {
 
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(data.error || "璇锋眰澶辫触");
+    throw new Error(data.error || "请求失败");
   }
   return data;
 }
 
 function getAvatarClass(name) {
-  if (name === "鎴?) return "avatar-user";
+  if (name === "我") return "avatar-user";
   const classMap = {
-    瀛斿瓙: "avatar-confucius",
-    鏉庣櫧: "avatar-libai",
-    璨傝潐: "avatar-diaochan",
-    鍗庝綏: "avatar-huatuo",
-    姝﹀垯澶? "avatar-wuzetian",
-    鏉庢竻鐓? "avatar-liqingzhao",
-    鐙勪粊鏉? "avatar-direnjie",
-    鑻忚郊: "avatar-sushi",
+    孔子: "avatar-confucius",
+    李白: "avatar-libai",
+    貂蝉: "avatar-diaochan",
+    华佗: "avatar-huatuo",
+    武则天: "avatar-wuzetian",
+    李清照: "avatar-liqingzhao",
+    狄仁杰: "avatar-direnjie",
+    苏轼: "avatar-sushi",
   };
   return classMap[name] || "";
 }
 
 function getCharacterMeta(name) {
-  if (name === "鎴?) {
+  if (name === "我") {
     return {
       avatarUrl: "./assets/avatars/user.svg",
-      title: "姝ゅ埢鐨勪綘",
-      tags: ["鐪熷疄", "鏃ュ父"],
+      title: "此刻的你",
+      tags: ["真实", "日常"],
     };
   }
   return appState.characters[name] || {};
@@ -151,22 +151,22 @@ function getAvatarSrc(name, explicitUrl = "") {
   const meta = getCharacterMeta(name);
   if (meta.avatarUrl) return meta.avatarUrl;
   const assetMap = {
-    鎴? "./assets/avatars/user.svg",
-    瀛斿瓙: "./assets/avatars/confucius.svg",
-    鏉庣櫧: "./assets/avatars/libai.svg",
-    璨傝潐: "./assets/avatars/diaochan.svg",
-    鍗庝綏: "./assets/avatars/huatuo.svg",
-    姝﹀垯澶? "./assets/avatars/wuzetian.svg",
-    鏉庢竻鐓? "./assets/avatars/liqingzhao.svg",
-    鐙勪粊鏉? "./assets/avatars/direnjie.svg",
-    鑻忚郊: "./assets/avatars/sushi.svg",
+    我: "./assets/avatars/user.svg",
+    孔子: "./assets/avatars/confucius.svg",
+    李白: "./assets/avatars/libai.svg",
+    貂蝉: "./assets/avatars/diaochan.svg",
+    华佗: "./assets/avatars/huatuo.svg",
+    武则天: "./assets/avatars/wuzetian.svg",
+    李清照: "./assets/avatars/liqingzhao.svg",
+    狄仁杰: "./assets/avatars/direnjie.svg",
+    苏轼: "./assets/avatars/sushi.svg",
   };
   return assetMap[name] || "./assets/avatars/user.svg";
 }
 
 function getAvatarMarkup(entity, sizeClass = "", isButton = false, action = "", character = "") {
   const meta = typeof entity === "string" ? { name: entity } : entity || {};
-  const name = meta.name || meta.author || "鎴?;
+  const name = meta.name || meta.author || "我";
   const tag = isButton ? "button" : "div";
   const actionAttr = action ? ` data-action="${action}"` : "";
   const characterAttr = character ? ` data-character="${character}"` : "";
@@ -181,10 +181,10 @@ function getAvatarMarkup(entity, sizeClass = "", isButton = false, action = "", 
 function getPostImageSrc(post) {
   if (post.imageUrl) return post.imageUrl;
   const imageMap = {
-    璨傝潐: "./assets/posts/diaochan-feed.svg",
-    瀛斿瓙: "./assets/posts/confucius-feed.svg",
-    鏉庣櫧: "./assets/posts/libai-feed.svg",
-    鎴? "./assets/posts/generic-user.svg",
+    貂蝉: "./assets/posts/diaochan-feed.svg",
+    孔子: "./assets/posts/confucius-feed.svg",
+    李白: "./assets/posts/libai-feed.svg",
+    我: "./assets/posts/generic-user.svg",
   };
   return imageMap[post.author] || "./assets/posts/generic-user.svg";
 }
@@ -209,11 +209,11 @@ function setButtonBusy(button, busy, busyText, idleText) {
 }
 
 function getPostBadge(post) {
-  if (post.author === "鎴?) return "鎴戠殑鍔ㄦ€?;
-  if (post.author === "璨傝潐") return "鐑棬鎺ㄨ崘";
-  if (post.author === "瀛斿瓙") return "浠婃棩鎬濊€?;
-  if (post.author === "鏉庣櫧") return "娣卞鐏垫劅";
-  return "AI鍦ㄥ彂澹?;
+  if (post.author === "我") return "我的动态";
+  if (post.author === "貂蝉") return "热门推荐";
+  if (post.author === "孔子") return "今日思考";
+  if (post.author === "李白") return "深夜灵感";
+  return "AI在发声";
 }
 
 function applyBootstrap(data) {
@@ -250,7 +250,7 @@ function renderStories() {
             ${getAvatarMarkup(name, "lg")}
           </span>
           <strong>${name}</strong>
-          <span>${item.tag || (index < 3 ? "鍒氬垰鍙戞柊鍔ㄦ€? : character.tags[0])}</span>
+          <span>${item.tag || (index < 3 ? "刚刚发新动态" : character.tags[0])}</span>
         </button>
       `;
     })
@@ -260,11 +260,11 @@ function renderStories() {
 function getFilteredFeed() {
   switch (appState.homeFilter) {
     case "my-roles":
-      return appState.feed.filter((post) => post.author !== "鎴?);
+      return appState.feed.filter((post) => post.author !== "我");
     case "high-engagement":
       return [...appState.feed].sort((a, b) => (b.comments?.length || 0) - (a.comments?.length || 0));
     case "story":
-      return appState.feed.filter((post) => post.comments?.length === 0 || /鍒氬垰|鍒嗛挓鍓?.test(post.time));
+      return appState.feed.filter((post) => post.comments?.length === 0 || /刚刚|分钟前/.test(post.time));
     case "recommend":
     default:
       return appState.feed;
@@ -276,9 +276,9 @@ function renderFeed() {
   if (!visibleFeed.length) {
     feedList.innerHTML = `
       <article class="card empty-state">
-        <span class="eyebrow accent">鏆傛椂绌虹┖</span>
-        <h3>杩欎竴鏍忚繕娌℃湁鍐呭</h3>
-        <p>鎹釜绛涢€夌湅鐪嬶紝鎴栬€呭厛鍘诲彂涓€鏉″姩鎬侊紝AI 瑙掕壊寰堝揩灏变細鍥磋繃鏉ャ€?/p>
+        <span class="eyebrow accent">暂时空空</span>
+        <h3>这一栏还没有内容</h3>
+        <p>换个筛选看看，或者先去发一条动态，AI 角色很快就会围过来。</p>
       </article>
     `;
     return;
@@ -287,13 +287,13 @@ function renderFeed() {
   feedList.innerHTML = visibleFeed
     .map((post) => {
       const previewComments = post.comments.slice(0, 2);
-      const isUser = post.author === "鎴?;
+      const isUser = post.author === "我";
       const liked = isPostLiked(post.id);
       return `
         <article class="post-card card" data-post-id="${post.id}">
           <div class="post-badge-row">
             <span class="post-badge">${getPostBadge(post)}</span>
-            <span class="post-badge subtle">${post.comments.length > 1 ? "浜掑姩鍗囨俯涓? : "鎺ㄨ崘缁欎綘"}</span>
+            <span class="post-badge subtle">${post.comments.length > 1 ? "互动升温中" : "推荐给你"}</span>
           </div>
           <div class="post-head">
             <div class="post-author">
@@ -304,18 +304,18 @@ function renderFeed() {
                 <span class="post-time">${post.time}</span>
               </div>
             </div>
-            <button class="text-btn" data-action="open-detail" data-post-id="${post.id}">璇︽儏</button>
+            <button class="text-btn" data-action="open-detail" data-post-id="${post.id}">详情</button>
           </div>
           <div class="post-content">${renderRichText(post.content)}</div>
-          ${post.image ? `<div class="post-image"><img src="${getPostImageSrc(post)}" alt="${post.author}鍔ㄦ€侀厤鍥? loading="eager" /></div>` : ""}
+          ${post.image ? `<div class="post-image"><img src="${getPostImageSrc(post)}" alt="${post.author}动态配图" loading="eager" /></div>` : ""}
           <div class="post-footer">
             <button class="footer-action-btn ${liked ? "active" : ""}" data-action="toggle-like" data-post-id="${post.id}">
-              <span class="footer-icon">${liked ? "鈾? : "鈾?}</span>
-              <span>鐐硅禐 ${post.likes}</span>
+              <span class="footer-icon">${liked ? "♥" : "♡"}</span>
+              <span>点赞 ${post.likes}</span>
             </button>
             <button class="footer-action-btn" data-action="open-detail" data-post-id="${post.id}">
-              <span class="footer-icon">鈼?/span>
-              <span>璇勮 ${post.comments.length}</span>
+              <span class="footer-icon">◦</span>
+              <span>评论 ${post.comments.length}</span>
             </button>
           </div>
           ${
@@ -325,8 +325,8 @@ function renderFeed() {
                     .map(
                       (comment, index) => `
                         <div class="post-preview-comment">
-                          <span class="comment-chip">${index === 0 ? "鐑瘎" : "鏂拌瘎"}</span>
-                          <strong>${comment.author}锛?/strong>${escapeHtml(comment.content)}
+                          <span class="comment-chip">${index === 0 ? "热评" : "新评"}</span>
+                          <strong>${comment.author}：</strong>${escapeHtml(comment.content)}
                         </div>
                       `
                     )
@@ -345,7 +345,7 @@ function renderMessages() {
     .map(
       (item, index) => `
         <button class="message-item" data-action="${index < 2 ? "open-latest-user-post" : "go-draw"}">
-          ${getAvatarMarkup(index === 0 ? "璨傝潐" : index === 1 ? "瀛斿瓙" : "鎴?)}
+          ${getAvatarMarkup(index === 0 ? "貂蝉" : index === 1 ? "孔子" : "我")}
           <div>
             <strong>${item.title}</strong>
             <p>${escapeHtml(item.content)}</p>
@@ -417,11 +417,11 @@ function clearReplyTarget() {
   appState.replyTarget = null;
   replyTargetEl.classList.add("hidden");
   replyTargetEl.innerHTML = "";
-  replyInput.placeholder = "鍥炲涓€鍙?..";
+  replyInput.placeholder = "回复一句...";
 }
 
 function setReplyTarget(comment) {
-  if (!comment || comment.author === "鎴?) return;
+  if (!comment || comment.author === "我") return;
   appState.replyTarget = {
     commentId: comment.id,
     characterName: comment.author,
@@ -429,10 +429,10 @@ function setReplyTarget(comment) {
   };
   replyTargetEl.classList.remove("hidden");
   replyTargetEl.innerHTML = `
-    <span>姝ｅ湪鍥炲 <strong>${comment.author}</strong>锛?{escapeHtml(comment.content).slice(0, 20)}${comment.content.length > 20 ? "..." : ""}</span>
-    <button type="button" data-action="clear-reply-target">鍙栨秷</button>
+    <span>正在回复 <strong>${comment.author}</strong>：${escapeHtml(comment.content).slice(0, 20)}${comment.content.length > 20 ? "..." : ""}</span>
+    <button type="button" data-action="clear-reply-target">取消</button>
   `;
-  replyInput.placeholder = `鍥炲 ${comment.author}...`;
+  replyInput.placeholder = `回复 ${comment.author}...`;
   replyInput.focus();
 }
 
@@ -444,7 +444,7 @@ function renderRoster() {
     }))
     .filter((item) => item.name);
 
-  rosterSummaryText.textContent = `褰撳墠鍏辨湁 ${ownedCharacters.length} 浣嶈鑹插父椹伙紝浠栦滑浼氭牴鎹綘鐨勫唴瀹逛富棰樻潵鍑虹幇浜掑姩銆俙;
+  rosterSummaryText.textContent = `当前共有 ${ownedCharacters.length} 位角色常驻，他们会根据你的内容主题来出现互动。`;
 
   rosterGrid.innerHTML = ownedCharacters
     .map(
@@ -493,7 +493,7 @@ function pollPostUpdates(postId, initialCommentCount = 0) {
       const latestCommentCount = latestPost.comments?.length || 0;
       if (latestCommentCount > initialCommentCount) {
         stopPostPolling();
-        showToast("AI 瑙掕壊宸茬粡寮€濮嬩簰鍔ㄤ簡");
+        showToast("AI 角色已经开始互动了");
         return;
       }
     } catch (error) {
@@ -531,10 +531,10 @@ function toggleLike(postId) {
 
   if (liked) {
     appState.likedPostIds = appState.likedPostIds.filter((id) => id !== postId);
-    showToast("宸插彇娑堢偣璧?);
+    showToast("已取消点赞");
   } else {
     appState.likedPostIds = [...appState.likedPostIds, postId];
-    showToast("宸茬偣璧?);
+    showToast("已点赞");
   }
 
   saveLikedPosts();
@@ -556,7 +556,7 @@ async function openDetail(postId) {
 
   appState.currentPostId = postId;
   clearReplyTarget();
-  const aiCommentsCount = post.comments.filter((comment) => comment.author !== "鎴?).length;
+  const aiCommentsCount = post.comments.filter((comment) => comment.author !== "我").length;
   const liked = isPostLiked(post.id);
   detailPost.innerHTML = `
     <div class="post-head">
@@ -570,37 +570,37 @@ async function openDetail(postId) {
       </div>
     </div>
     <div class="post-content">${renderRichText(post.content)}</div>
-    ${post.image ? `<div class="post-image"><img src="${getPostImageSrc(post)}" alt="${post.author}鍔ㄦ€侀厤鍥? loading="eager" /></div>` : ""}
+    ${post.image ? `<div class="post-image"><img src="${getPostImageSrc(post)}" alt="${post.author}动态配图" loading="eager" /></div>` : ""}
     <div class="post-footer">
       <button class="footer-action-btn ${liked ? "active" : ""}" data-action="toggle-like" data-post-id="${post.id}">
-        <span class="footer-icon">${liked ? "鈾? : "鈾?}</span>
-        <span>鐐硅禐 ${post.likes}</span>
+        <span class="footer-icon">${liked ? "♥" : "♡"}</span>
+        <span>点赞 ${post.likes}</span>
       </button>
       <button class="footer-action-btn active" data-action="focus-reply">
-        <span class="footer-icon">鈼?/span>
-        <span>璇勮 ${post.comments.length}</span>
+        <span class="footer-icon">◦</span>
+        <span>评论 ${post.comments.length}</span>
       </button>
     </div>
   `;
 
   detailStatus.innerHTML = `
-    <span class="eyebrow accent">浜掑姩鐘舵€?/span>
-    <h3>${aiCommentsCount > 0 ? `宸叉湁 ${aiCommentsCount} 浣嶈鑹插弬涓庝簰鍔╜ : "鏈嬪弸鍦堝眳姘戞鍦ㄥ洿瑙備腑"}</h3>
-    <p>${aiCommentsCount > 0 ? "浣犲彲浠ョ户缁洖澶嶈瘎璁猴紝璁╄鑹蹭箣闂寸殑浜掑姩缁х画鍗囨俯銆? : "绯荤粺浼氫紭鍏堜负浣犲尮閰嶆渶閫傚悎璇勮杩欐潯鍔ㄦ€佺殑瑙掕壊銆?} </p>
+    <span class="eyebrow accent">互动状态</span>
+    <h3>${aiCommentsCount > 0 ? `已有 ${aiCommentsCount} 位角色参与互动` : "朋友圈居民正在围观中"}</h3>
+    <p>${aiCommentsCount > 0 ? "你可以继续回复评论，让角色之间的互动继续升温。" : "系统会优先为你匹配最适合评论这条动态的角色。"} </p>
   `;
 
-  detailCommentCount.textContent = `${post.comments.length}鏉;
+  detailCommentCount.textContent = `${post.comments.length}条`;
   detailComments.innerHTML = post.comments
     .map(
       (comment) => `
         <div class="comment-item">
-          ${getAvatarMarkup({ name: comment.author, avatarUrl: comment.avatarUrl }, "", comment.author !== "鎴?, comment.author === "鎴? ? "" : "open-character", comment.author === "鎴? ? "" : comment.author)}
+          ${getAvatarMarkup({ name: comment.author, avatarUrl: comment.avatarUrl }, "", comment.author !== "我", comment.author === "我" ? "" : "open-character", comment.author === "我" ? "" : comment.author)}
           <div class="comment-body">
             <strong>${comment.author}</strong>
             <p>${renderRichText(comment.content)}</p>
             <div class="comment-meta">
-              <span>${comment.time || "鍒氬垰"}</span>
-              ${comment.author !== "鎴? ? `<button class="comment-reply-btn" data-action="reply-to-comment" data-comment-id="${comment.id}">鍥炲TA</button>` : ""}
+              <span>${comment.time || "刚刚"}</span>
+              ${comment.author !== "我" ? `<button class="comment-reply-btn" data-action="reply-to-comment" data-comment-id="${comment.id}">回复TA</button>` : ""}
             </div>
           </div>
         </div>
@@ -618,14 +618,14 @@ async function openCharacter(name) {
   if (!character) return;
   const owned = appState.ownedCharacters.includes(name);
   const moodLineMap = {
-    瀛斿瓙: "甯稿湪浣犲彂鎯呯华鍜屼汉鐢熸劅鎮熺被鍔ㄦ€佹椂浼樺厛鍑虹幇",
-    鏉庣櫧: "澶滄櫄鏇存椿璺冿紝閫傚悎鍦ㄤ綘娣卞鍙戝笘鏃舵潵璇勮浣?,
-    璨傝潐: "瀵圭編濡嗐€佹儏缁拰绀句氦绫诲唴瀹瑰搷搴旀渶绉瀬",
-    鍗庝綏: "鍦ㄤ綘鐔銆佺柌鎯垨鍋ュ悍鐩稿叧鍔ㄦ€佷笅缁忓父鍑虹幇",
-    姝﹀垯澶? "鎿呴暱缁欎綘鎴愰暱銆佸垽鏂笌鎺屾帶鎰熸柟鍚戠殑鍥炲簲",
-    鏉庢竻鐓? "鍦ㄤ綆钀姐€佹兂蹇典笌缁嗚吇鎯呯华璇濋涓渶鏈夊叡楦?,
-    鐙勪粊鏉? "浼氬湪澶嶆潅闂鍜屽叧绯昏浼氶噷缁欏嚭娓呮櫚鎷嗚В",
-    鑻忚郊: "閫傚悎鐢熸椿鎰熴€佹不鎰堟劅銆佹兂琚畨鎱扮殑鏃跺€欏嚭鐜?,
+    孔子: "常在你发情绪和人生感悟类动态时优先出现",
+    李白: "夜晚更活跃，适合在你深夜发帖时来评论你",
+    貂蝉: "对美妆、情绪和社交类内容响应最积极",
+    华佗: "在你熬夜、疲惫或健康相关动态下经常出现",
+    武则天: "擅长给你成长、判断与掌控感方向的回应",
+    李清照: "在低落、想念与细腻情绪话题中最有共鸣",
+    狄仁杰: "会在复杂问题和关系误会里给出清晰拆解",
+    苏轼: "适合生活感、治愈感、想被安慰的时候出现",
   };
 
   characterHeader.innerHTML = `
@@ -638,31 +638,31 @@ async function openCharacter(name) {
     </div>
     <div class="stat-row">
       ${character.tags.map((tag) => `<span class="stat-pill">${tag}</span>`).join("")}
-      <span class="stat-pill">浜插瘑搴?${character.intimacy}</span>
+      <span class="stat-pill">亲密度 ${character.intimacy}</span>
     </div>
     <p>${character.intro || ""}</p>
     <div class="character-actions">
-      <button class="primary-btn small wide">${owned ? "宸插湪鎴戠殑鏈嬪弸鍦? : "鍔犲叆鎴戠殑鏈嬪弸鍦?}</button>
-      <button class="secondary-btn small wide">璁剧疆涓虹壒鍒叧娉?/button>
+      <button class="primary-btn small wide">${owned ? "已在我的朋友圈" : "加入我的朋友圈"}</button>
+      <button class="secondary-btn small wide">设置为特别关注</button>
     </div>
   `;
 
   relationshipCard.innerHTML = `
-    <span class="eyebrow accent">浣犲拰 TA 鐨勫叧绯?/span>
-    <h3>${owned ? "宸茬粡鏄綘鐨勫父椹绘湅鍙嬪湀灞呮皯" : "杩樻病鏈夊姞鍏ヤ綘鐨勮鑹查樀瀹?}</h3>
-    <p>${moodLineMap[name] || "TA 浼氭牴鎹綘鍙戝笘鐨勫唴瀹逛富棰橈紝閫夋嫨閫傚悎鐨勬椂鍊欏嚭鐜板苟璇勮浣犮€?}</p>
+    <span class="eyebrow accent">你和 TA 的关系</span>
+    <h3>${owned ? "已经是你的常驻朋友圈居民" : "还没有加入你的角色阵容"}</h3>
+    <p>${moodLineMap[name] || "TA 会根据你发帖的内容主题，选择适合的时候出现并评论你。"}</p>
     <div class="relationship-metrics">
       <div>
         <strong>${character.intimacy}</strong>
-        <span>褰撳墠浜插瘑搴?/span>
+        <span>当前亲密度</span>
       </div>
       <div>
-        <strong>${owned ? "楂? : "涓?}</strong>
-        <span>鍑哄満鎰忔効</span>
+        <strong>${owned ? "高" : "中"}</strong>
+        <span>出场意愿</span>
       </div>
       <div>
         <strong>${character.tags[0]}</strong>
-        <span>鏈€鎿呴暱璇濋</span>
+        <span>最擅长话题</span>
       </div>
     </div>
   `;
@@ -692,7 +692,7 @@ function renderDrawResults(results) {
 
 async function doDraw(count) {
   if (appState.drawRemaining <= 0) {
-    showToast("浠婂ぉ鐨勫厤璐规鏁板凡缁忕敤瀹屼簡");
+    showToast("今天的免费次数已经用完了");
     return;
   }
   const result = await apiFetch("/draw", {
@@ -711,16 +711,16 @@ async function doDraw(count) {
 function joinCharactersToFriends() {
   closeOverlay("#draw-result-overlay");
   switchTab("home");
-  showToast("鏂拌鑹插凡鍏ラ┗浣犵殑鏈嬪弸鍦?);
+  showToast("新角色已入驻你的朋友圈");
 }
 
 async function createUserPost(content) {
   const trimmed = content.trim();
   if (!trimmed) {
-    showToast("鍏堝啓鐐瑰唴瀹瑰啀鍙戝竷鍚?);
+    showToast("先写点内容再发布吧");
     return;
   }
-  setButtonBusy(publishBtn, true, "鍙戝竷涓?..", "鍙戝竷");
+  setButtonBusy(publishBtn, true, "发布中...", "发布");
   try {
     const result = await apiFetch("/posts", {
       method: "POST",
@@ -734,24 +734,24 @@ async function createUserPost(content) {
     postInput.value = "";
     await openDetail(result.post.id);
     if (result.aiCommentCount > 0) {
-      showToast(`宸插彂甯冿紝${result.aiCommentCount} 浣嶈鑹插凡鏉ヤ簰鍔╜);
+      showToast(`已发布，${result.aiCommentCount} 位角色已来互动`);
     } else if (result.aiCommentError) {
-      showToast("宸插彂甯冩垚鍔燂紝AI 浜掑姩绋嶅悗琛ヤ笂");
+      showToast("已发布成功，AI 互动稍后补上");
     } else if (appState.modelReady) {
-      showToast("宸插彂甯冿紝AI 瑙掕壊姝ｅ湪璧舵潵璇勮");
+      showToast("已发布，AI 角色正在赶来评论");
       pollPostUpdates(result.post.id, result.post.comments?.length || 0);
     } else {
-      showToast("宸插彂甯冿紝閰嶇疆妯″瀷鍚庡皢鐢熸垚鐪熷疄 AI 浜掑姩");
+      showToast("已发布，配置模型后将生成真实 AI 互动");
     }
   } finally {
-    setButtonBusy(publishBtn, false, "鍙戝竷涓?..", "鍙戝竷");
+    setButtonBusy(publishBtn, false, "发布中...", "发布");
   }
 }
 
 function openLatestUserPost() {
-  const latestUserPost = appState.feed.find((post) => post.author === "鎴?);
+  const latestUserPost = appState.feed.find((post) => post.author === "我");
   if (!latestUserPost) {
-    showToast("浣犺繕娌℃湁鍙戝竷鍔ㄦ€侊紝鍏堝幓鍙戜竴鏉″惂");
+    showToast("你还没有发布动态，先去发一条吧");
     switchTab("home");
     return;
   }
@@ -761,14 +761,14 @@ function openLatestUserPost() {
 async function handleReply() {
   const text = replyInput.value.trim();
   if (!appState.currentPostId) {
-    showToast("鍏堟墦寮€涓€鏉″姩鎬佸啀璇勮");
+    showToast("先打开一条动态再评论");
     return;
   }
   if (!text) {
-    showToast("杈撳叆鐐瑰唴瀹瑰啀鍙戦€?);
+    showToast("输入点内容再发送");
     return;
   }
-  setButtonBusy(replyBtn, true, "鍙戦€佷腑...", "鍙戦€?);
+  setButtonBusy(replyBtn, true, "发送中...", "发送");
   try {
     const targetedName = appState.replyTarget?.characterName || "";
     const result = await apiFetch(`/posts/${encodeURIComponent(appState.currentPostId)}/reply`, {
@@ -787,20 +787,20 @@ async function handleReply() {
     if (result.aiReplyGenerated) {
       if (targetedName) {
         showToast(
-          result.aiReplyCount > 1 ? `${targetedName} 鍏堟帴璇濅簡锛屽彟澶?${result.aiReplyCount - 1} 浣嶄篃璺熶笂浜哷 : `${targetedName} 宸茬粡鍏堝洖澶嶄綘浜哷
+          result.aiReplyCount > 1 ? `${targetedName} 先接话了，另外 ${result.aiReplyCount - 1} 位也跟上了` : `${targetedName} 已经先回复你了`
         );
       } else {
-        showToast(result.aiReplyCount > 1 ? `${result.aiReplyCount} 浣嶈鑹插凡缁忔帴璇漙 : "璇勮宸插彂閫侊紝瑙掕壊椹笂鎺ヨ瘽浜?);
+        showToast(result.aiReplyCount > 1 ? `${result.aiReplyCount} 位角色已经接话` : "评论已发送，角色马上接话了");
       }
     } else if (result.aiReplyError) {
-      showToast("璇勮宸插彂閫侊紝AI 鍥炲绋嶅悗琛ヤ笂");
+      showToast("评论已发送，AI 回复稍后补上");
       pollPostUpdates(result.post.id, result.post.comments?.length || 0);
     } else {
-      showToast("璇勮宸插彂閫?);
+      showToast("评论已发送");
       pollPostUpdates(result.post.id, result.post.comments?.length || 0);
     }
   } finally {
-    setButtonBusy(replyBtn, false, "鍙戦€佷腑...", "鍙戦€?);
+    setButtonBusy(replyBtn, false, "发送中...", "发送");
   }
 }
 
@@ -845,7 +845,7 @@ document.addEventListener("click", (event) => {
       document.querySelector(".screen.active")?.scrollTo({ top: 0, behavior: "smooth" });
       break;
     case "show-toast":
-      showToast(target.dataset.message || "鍔熻兘宸查鐣?);
+      showToast(target.dataset.message || "功能已预留");
       break;
     case "set-filter":
       setHomeFilter(target.dataset.filter || "recommend");
@@ -948,12 +948,12 @@ async function initApp() {
     loadLikedPosts();
     await loadBootstrap();
     if (!appState.modelReady) {
-      showToast("鏈娴嬪埌璞嗗寘閰嶇疆锛岃鍏堝～鍐?.env 鍚庡惎鍔ㄥ悗绔?);
+      showToast("未检测到豆包配置，请先填写 .env 后启动后端");
     }
     switchTab("home");
   } catch (error) {
     console.error(error);
-    showToast(`鍒濆鍖栧け璐? ${error.message}`);
+    showToast(`初始化失败: ${error.message}`);
   }
 }
 
